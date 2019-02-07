@@ -1,8 +1,10 @@
 pipeline{
     agent any
         stages('build'){
-            steps{
+            stage{
+		steps{
                 sh 'mv clean package'
-            }
+            		}	
+		}
         }
 }
