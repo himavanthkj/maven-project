@@ -3,9 +3,17 @@ pipeline{
         stages{
             stage('build'){
                 steps{
-                    sh 'mvn clean package'
-		    sh "sudo docker build . -t tomcatwebapp:${env.BUILD_ID}"	
+                    sh 'mvn clean package'	
                 }
+                POST {
+                   success{
+                       archiveArtifacts artifacts: '**/target/**.war'
+                   }
+                }
+            }
+            stage('Deployments'){
+                sh 'cp /var/lib/jenkins/tomcat-demo.pem **/target/*.war /home/hima/tomcat/apache-tomcat-8.5.45/webapps'   
+
             }
         }
 }
